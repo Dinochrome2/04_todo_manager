@@ -4,9 +4,9 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, select
 
-from .database import create_db_and_tables, get_session
-from .models import Task
-from .schemas import TaskCreate, TaskRead, TaskUpdate
+from database import create_db_and_tables, get_session
+from models import Task
+from schemas import TaskCreate, TaskRead, TaskUpdate
 
 app = FastAPI(
     title="ToDo Manager",
