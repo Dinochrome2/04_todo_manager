@@ -18,20 +18,20 @@ services:
       - backend
 
   caddy:
-    image: caddy:2
-    container_name: caddy
-    ports:
-      - "80:80"
-      - "443:443"
-    command: ["caddy", "run", "--config", "/etc/caddy-prod/Caddyfile", "--adapter", "caddyfile"]
-    volumes:
-      - ./Caddyfile.prod:/etc/caddy-prod/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-      - frontend_data:/srv/frontend
-    depends_on:
-      - frontend
-      - backend
+  image: caddy:2
+  container_name: caddy
+  ports:
+    - "80:80"
+    - "443:443"
+  command: ["caddy", "run", "--config", "/etc/caddy-prod/Caddyfile", "--adapter", "caddyfile"]
+  volumes:
+    - ./frontend/Caddyfile.prod:/etc/caddy-prod/Caddyfile:ro
+    - caddy_data:/data
+    - caddy_config:/config
+    - frontend_data:/srv/frontend
+  depends_on:
+    - frontend
+    - backend
 
 volumes:
   todo_backend_data:
