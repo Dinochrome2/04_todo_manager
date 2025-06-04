@@ -1,9 +1,12 @@
-:80 {
-    root * /usr/share/caddy
-    file_server
-    try_files {path} /index.html
+dinochrome1.ru {
+    reverse_proxy /api/* todo-backend:8000
 
-    handle_path /api/* {
-        reverse_proxy backend:8000
+    root * /srv/frontend
+    file_server
+
+    encode gzip zstd
+
+    handle_errors {
+        respond "Internal Server Error" 500
     }
 }

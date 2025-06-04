@@ -5,20 +5,35 @@ services:
     container_name: todo-backend
     expose:
       - "8000"
-    ports:
-      - "8000:8000"
-    volumes:
-      - todo_backend_data:/data
     restart: always
 
   frontend:
     build:
       context: ./frontend
+      target: static-export
     container_name: todo-frontend
-    ports:
-      - "8080:80"
+    volumes:
+      - frontend_data:/srv/frontend
     depends_on:
       - backend
 
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+      - frontend_data:/srv/frontend
+    depends_on:
+      - frontend
+      - backend
+
 volumes:
-  todo_backend_data:  # Объявление тома (Docker создаст его автоматически)
+  todo_backend_data:
+  frontend_data:
+  caddy_data:
+  caddy_config:
